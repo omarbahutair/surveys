@@ -6,10 +6,12 @@ const keys = require('../config/keys'); // hidden file - contains sensitive info
 const User = mongoose.model('users');
 
 passport.serializeUser((user, done) => {
+  console.log('serialize user');
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
+  console.log('deserialize user');
   User.findById(id).then(user => done(null, user));
 });
 
