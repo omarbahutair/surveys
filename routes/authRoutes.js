@@ -10,11 +10,17 @@ router.get(
   })
 );
 
-router.get('/auth/google/callback', passport.authenticate('google'));
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google'),
+  (_, res) => {
+    res.redirect('/surveys');
+  }
+);
 
 router.get('/api/logout', (req, res) => {
   req.logout();
-  res.send(`<div>${req.user}</div>`);
+  res.redirect('/');
 });
 
 router.get('/api/current_user', (req, res) => {

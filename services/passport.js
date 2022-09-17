@@ -6,12 +6,10 @@ const keys = require('../config/keys'); // hidden file - contains sensitive info
 const User = mongoose.model('users');
 
 passport.serializeUser((user, done) => {
-  console.log('serialize user');
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log('deserialize user');
   User.findById(id).then(user => done(null, user));
 });
 
@@ -23,18 +21,18 @@ passport.use(
       callbackURL: '/auth/google/callback',
       proxy: true,
     },
-    (_, __, profile, done) => {
-      User.findOne({ googleID: profile.id }).then(user => {
-        if (user) {
-          // the user already registered before
-          // skip user creation
-          done(null, user);
-        } else {
-          new User({ googleID: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+    async (_, __, profile, done) => {
+      const user = await User.findOne({ googleID: profile.id });
+
+      if (user) {
+        // user already signed up before
+        // skip creation
+        done(null, user);
+      }
+
+      const newUser = await new User({ googleID: profile.id }).save();
+
+      done(null, newUser);
     }
   )
 );
