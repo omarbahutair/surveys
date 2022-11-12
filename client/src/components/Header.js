@@ -20,7 +20,10 @@ function Header(props) {
           <li key={1}>
             <Payments />
           </li>,
-          <li key={2}>
+          <li key={2} style={{ margin: '0px 12px' }}>
+            Credits: {props.auth.credits}
+          </li>,
+          <li key={3}>
             <a href="/api/logout">Logout</a>
           </li>,
         ];
