@@ -3,7 +3,7 @@ const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const mongoose = require('mongoose');
 const keys = require('../config/keys'); // hidden file - contains sensitive information
 
-const User = mongoose.model('users');
+const User = mongoose.model('user');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
