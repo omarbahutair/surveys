@@ -13,6 +13,8 @@ router.post('/api/stripe', requireAuth, async (req, res) => {
     source: req.body.id,
   });
 
+  console.log('charge');
+
   req.user.credits += 5;
 
   const user = await req.user.save();
